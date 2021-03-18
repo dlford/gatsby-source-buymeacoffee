@@ -116,4 +116,4 @@ export default function SupportersComponent() {
 
 ## How to contribute
 
-Submit your issue or pull request at [https://github.com/dlford/buymeacoffee](https://github.com/dlford/buymeacoffee).
+Submit your issue or pull request at [https://github.com/dlford/gatsby-source-buymeacoffee](https://github.com/dlford/gatsby-source-buymeacoffee).
