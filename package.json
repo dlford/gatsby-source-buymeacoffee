@@ -1,5 +1,6 @@
 {
   "name": "gatsby-source-buymeacoffee",
+  "version": "0.0.1",
   "description": "Gatsby source plugin for sourcing data from buymeacoffee.com",
   "repository": {
     "type": "git",
