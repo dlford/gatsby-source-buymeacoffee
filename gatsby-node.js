@@ -1,5 +1,7 @@
 const fetch = require('node-fetch')
 
+const supporterTypeName = `BuyMeACoffeeSupporter`
+
 exports.pluginOptionsSchema = ({ Joi }) => {
   return Joi.object({
    token: Joi.string()
@@ -11,11 +13,35 @@ exports.pluginOptionsSchema = ({ Joi }) => {
   })
 }
 
+exports.createSchemaCustomization = ({ actions }) => {
+  const { createTypes } = actions
+  const typeDefs = `
+    type ${supporterTypeName} implements Node @dontInfer {
+      support_id: Int!
+      support_note: String
+      support_coffees: Int!
+      transaction_id: String!
+      support_visibility: Int
+      support_created_on: String!
+      support_updated_on: String!
+      supporter_name: String
+      support_coffee_price: String!
+      support_email: String
+      support_currency: String!
+      referer: String
+      country: String
+      support_hidden: Int
+      payer_email: String!
+      payment_platform: String!
+      payer_name: String
+    }
+  `
+  createTypes(typeDefs)
+}
+
 exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }, pluginOptions) => {
   const { createNode } = actions
   const { token } = pluginOptions
-
-  // TODO : create schema here
 
   let result = []
   async function getBmcData(url) {
@@ -51,7 +77,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }, plu
         parent: null,
         children: [],
         internal: {
-          type: `BuyMeACoffeeSupporter`,
+          type: supporterTypeName,
           mediaType: `text/html`,
           content: nodeContent,
           contentDigest: createContentDigest(entry),
