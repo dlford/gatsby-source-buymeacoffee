@@ -1,0 +1,27 @@
+{
+  "name": "gatsby-source-buymeacoffee",
+  "description": "Gatsby source plugin for sourcing data from buymeacoffee.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dlford/gatsby-source-buymeacoffee.git"
+  },
+  "keywords": [
+    "gatsby",
+    "buymeacoffee",
+    "gatsby-plugin",
+    "gatsby-source-plugin"
+  ],
+  "author": "DL Ford <dan-github2@dlford.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dlford/gatsby-source-buymeacoffee/issues"
+  },
+  "homepage": "https://github.com/dlford/gatsby-source-buymeacoffee#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "prettier": "^2.2.1"
+  }
+}
