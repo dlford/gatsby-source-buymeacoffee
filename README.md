@@ -20,6 +20,8 @@ Use this plugin to thank your supporters by adding their display name and/or com
 
 You'll need an access token for the API, you can get that here: [https://developers.buymeacoffee.com/dashboard](https://developers.buymeacoffee.com/dashboard).
 
+**Note: It is not recommended to keep your API key in a git repository, even if it is private!** It is best to use an environment variable, if you aren't familiar with using environment variables with Gatsby more information can be found at [https://www.gatsbyjs.com/docs/how-to/local-development/environment-variables/](https://www.gatsbyjs.com/docs/how-to/local-development/environment-variables/).
+
 ```js
 // In your gatsby-config.js
 module.exports = {
