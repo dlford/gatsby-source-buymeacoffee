@@ -39,11 +39,14 @@ exports.createSchemaCustomization = ({ actions }) => {
   createTypes(typeDefs)
 }
 
-exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }, pluginOptions) => {
+exports.sourceNodes = async ({ actions, createNodeId, createContentDigest, cache }, pluginOptions) => {
+  const cacheKey = 'gatsby-source-buymeacoffee'
   const { createNode } = actions
   const { token } = pluginOptions
 
+  // Fetch data
   let result = []
+  let success = true
   async function getBmcData(url) {
     return fetch(url || 'https://developers.buymeacoffee.com/api/v1/supporters', {
       method: 'GET',
@@ -58,12 +61,29 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }, plu
         result = [...result, ...payload]
       }
       if (data.next_page_url) {
+        // Pause for rate limiter
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve()
+          }, 5000)
+        })
         await getBmcData(data.next_page_url)
       }
     })
   }
 
-  await getBmcData()
+  await getBmcData().catch((e) => {
+    console.error(`Failed to fetch BuyMeACoffee data, falling back to cached data`)
+    console.error(e)
+    success = false
+  })
+
+  // Load cache if request failed, otherwise update cache
+  if (success) {
+    await cache.set(cacheKey, result)
+  } else {
+    result = await cache.get(cacheKey) || []
+  }
 
   for (entry of result) {
     // Respect supporters privacy
