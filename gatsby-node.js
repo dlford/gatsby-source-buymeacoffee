@@ -22,8 +22,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       support_coffees: Int!
       transaction_id: String!
       support_visibility: Int
-      support_created_on: String!
-      support_updated_on: String!
+      support_created_on(locale: String): String!
+      support_updated_on(locale: String): String!
       supporter_name: String
       support_coffee_price: String!
       support_email: String
