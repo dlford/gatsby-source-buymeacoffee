@@ -65,7 +65,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest, cache
         await new Promise((resolve) => {
           setTimeout(() => {
             resolve()
-          }, 5000)
+          }, 10000)
         })
         await getBmcData(data.next_page_url)
       }

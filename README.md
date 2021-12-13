@@ -1,12 +1,10 @@
 # gatsby-source-buymeacoffee
 
-**This package is still in development, things may change while I get things optimized, it is usable but not well tested at this point.**
-
 A Gatsby source plugin for sourcing data into your Gatsby application from the BuyMeACoffee.com public API.
 
 This plugin creates `BuyMeACoffeeSupporter` nodes from your BuyMeACoffee supporters, but it will omit any supporters that have chosen to make their contribution private, to respect their privacy.
 
-*Note: Currently this plugin only fetches the `supporters` API endpoint, please open an issue or submit a pull request if you'd like to add other endpoints.*
+_Note: Currently this plugin only fetches the `supporters` API endpoint, please open an issue or submit a pull request if you'd like to add other endpoints._
 
 ## When do I use this plugin
 
@@ -32,8 +30,8 @@ module.exports = {
         token: `YOUR_BMC_API_ACCESS_TOKEN`, // Replace this with your token
       },
     },
-  ]
-}
+  ],
+};
 ```
 
 ## How to query
@@ -60,7 +58,7 @@ query {
         transaction_id
       }
     }
-  }  
+  }
 }
 ```
 
@@ -68,11 +66,11 @@ query {
 
 Here is an example component that creates an unsorted list of supporter names.
 
-*Note: The data in the public API seems to be a bit fragmented, seems as if they've changed key names but haven't migrated the data from the old keys, so we are checking for both `payer_name` and `supporter_name` because the data may be in either key.
+\*Note: The data in the public API seems to be a bit fragmented, seems as if they've changed key names but haven't migrated the data from the old keys, so we are checking for both `payer_name` and `supporter_name` because the data may be in either key.
 
 ```js
-import React from 'react'
-import { graphql, useStaticQuery } from 'gatsby'
+import React from "react";
+import { graphql, useStaticQuery } from "gatsby";
 
 const SUPPORTERS_QUERY = graphql`
   query SUPPORTERS_QUERY {
@@ -85,23 +83,23 @@ const SUPPORTERS_QUERY = graphql`
       }
     }
   }
-`
+`;
 
 export default function SupportersComponent() {
-  const data = useStaticQuery(SUPPORTERS_QUERY)
-  const supporters = data?.allBuyMeACoffeeSupporter?.edges
+  const data = useStaticQuery(SUPPORTERS_QUERY);
+  const supporters = data?.allBuyMeACoffeeSupporter?.edges;
   return (
     <ul>
       {supporters.map(({ node }, idx) => {
-        const name = node.supporter_name || node.payer_name
+        const name = node.supporter_name || node.payer_name;
         if (name) {
           // We add idx to the key in case the same
           // person supported twice.
-          return <li key={name+idx}>{name}</li>
+          return <li key={name + idx}>{name}</li>;
         }
       })}
     </ul>
-  )
+  );
 }
 ```
 
@@ -119,3 +117,7 @@ export default function SupportersComponent() {
 ## How to contribute
 
 Submit your issue or pull request at [https://github.com/dlford/gatsby-source-buymeacoffee](https://github.com/dlford/gatsby-source-buymeacoffee).
+
+## Changelog
+
+- 2021/12/13: Resolved issues with BMC's aggressive rate limiting, will now wait 10 seconds between each request, and also leverages caching if the request fails.
