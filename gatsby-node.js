@@ -82,29 +82,31 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest, cache
   if (success) {
     await cache.set(cacheKey, result)
   } else {
-    result = await cache.get(cacheKey) || []
+    result = await cache.get(cacheKey)
   }
 
-  for (entry of result) {
-    // Respect supporters privacy
-    if (
-      entry.support_hidden !== 1 &&
-      entry.support_visibility !== 0
-    ) {
-      const nodeContent = JSON.stringify(entry)
-      const nodeMeta = {
-        id: createNodeId(`bmc-${entry.support_id}`),
-        parent: null,
-        children: [],
-        internal: {
-          type: supporterTypeName,
-          mediaType: `text/html`,
-          content: nodeContent,
-          contentDigest: createContentDigest(entry),
-        },
+  if (result) {
+    for (entry of result) {
+      // Respect supporters privacy
+      if (
+        entry.support_hidden !== 1 &&
+        entry.support_visibility !== 0
+      ) {
+        const nodeContent = JSON.stringify(entry)
+        const nodeMeta = {
+          id: createNodeId(`bmc-${entry.support_id}`),
+          parent: null,
+          children: [],
+          internal: {
+            type: supporterTypeName,
+            mediaType: `text/html`,
+            content: nodeContent,
+            contentDigest: createContentDigest(entry),
+          },
+        }
+        const node = Object.assign({}, entry, nodeMeta)
+        createNode(node)
       }
-      const node = Object.assign({}, entry, nodeMeta)
-      createNode(node)
     }
   }
 }
