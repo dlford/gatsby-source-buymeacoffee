@@ -1,4 +1,10 @@
-# gatsby-source-buymeacoffee
+# gatsby-source-buymeacoffee (depricated)
+
+## Important Notice
+
+This package is no longer maintained since I'm not using Gatsby anymore, if you wish to become a maintainer please contact me or open an issue here.
+
+---
 
 A Gatsby source plugin for sourcing data into your Gatsby application from the BuyMeACoffee.com public API.
 
